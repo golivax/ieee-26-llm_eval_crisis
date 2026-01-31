@@ -1,0 +1,273 @@
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,proceedings,bibtex,sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+\documentclass[sigconf,review]{acmart}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmlicensed}
+\copyrightyear{2018}
+\acmYear{2018}
+\acmDOI{XXXXXXX.XXXXXXX}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[ICSE 2026]{48th International Conference on Software Engineering}{May 2026}{Rio de Janeiro, Brazil}
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+\acmISBN{978-1-4503-XXXX-X/2018/06}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{The Reproducibility Crisis of LLM Benchmarks in Software Engineering: An Industrial Perspective}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+\author{Gustavo Oliva}
+\orcid{0000-0000-0000-0000}
+\affiliation{%
+  \institution{Huawei Canada}
+  \city{Kingston}
+  \country{Canada}
+}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Gustavo et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+The integration of Large Language Models (LLMs) into Software Engineering (SE) has spurred the creation of benchmarks like SWE-Bench and LCB to measure their capabilities. However, current practices for reporting results are failing us, leading to a reproducibility crisis. The execution of these benchmarks depends on a vast number of parameters—from the LLM's training cutoff and inference settings to the specific versions of evaluation scaffolds—many of which go unreported. While some parameters have a greater impact than others, any one of them can alter the outcome, making it impossible for industrial teams to establish reliable baselines for their own models. This paper argues that the SE community must move beyond isolated, single-point benchmark publications. Drawing inspiration from mature practices in hardware benchmarking, we propose a paradigm shift towards a crowdsourced and continuously updated evaluation model. In this model, benchmark results are submitted by various parties, complete with detailed configuration reports, to establish a public, transparent distribution of performance data (e.g., median, average). This approach would not only expose the impact of different configurations but also create the robust, trustworthy baselines that industry desperately needs. We contend that such a shift is essential for fostering genuine progress and enabling fair comparison in the evaluation of LLMs for software engineering.
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>00000000.0000000.0000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+\ccsdesc[300]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+\ccsdesc{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+\ccsdesc[100]{Do Not Use This Code~Generate the Correct Terms for Your Paper}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{Keyword 1, keyword 2}
+
+\received{20 February 2007}
+\received[revised]{12 March 2009}
+\received[accepted]{5 June 2009}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle{The Reproducibility Crisis of LLM Benchmarks in Software Engineering: An Industrial Perspective}
+
+\section{Introduction}
+The rapid advancement of Large Language Models (LLMs) has created a paradigm shift in software engineering (SE), with models now capable of generating code, fixing bugs, and even designing entire software components \cite{hou2023large}. To measure their progress, the community has developed benchmarks like SWE-Bench \cite{jimenez2024swebench}, LiveCodeBench \cite{zhang2024livecodebench}, and the Aider Polyglot benchmark \cite{goth2024polyglot}. However, the current practices for reporting results are failing, leading to a crisis in reproducibility, transparency, and trustworthiness \cite{li2023reproducibility}.
+
+From an industrial perspective, this is a critical obstacle. As a company training our own LLMs, we rely on public benchmarks to establish a performance baseline. Furthermore, executing these benchmarks is a time-consuming and computationally expensive endeavor. Integrating multiple benchmarks, each with its own unique setup and non-standard parameters, is akin to a complex legacy system integration project. This lack of standardization leads to wasted resources and makes it impossible to reliably compare results. For instance, a public, crowdsourced baseline would allow us to see how far a new model's official scores deviate from the median, providing a much-needed reality check.
+
+In this paper, we distill our team's practical experience into a set of five concrete recommendations for the community. We begin with a motivating example, using our own data to show how minor parameter variations cause significant swings in benchmark scores. We then present our core recommendations: (1) Mandate cryptographic hashes of model weights for verifiable integrity. (2) Require a comprehensive, machine-readable configuration file for all runs. (3) Enforce the reporting of a "default settings" baseline alongside any optimized results. (4) Champion a shift to a crowdsourced, statistical benchmarking model. (5) Issue a call for standardized benchmark engineering, treating benchmarks as robust, containerized tools with standard interfaces and resilient execution. Our goal is to move the community towards a more robust, reliable, and scientific foundation for evaluating LLMs in software engineering.
+
+% Focus on industrial context of building LLMs, but also mention this is all valid for academics/researchers creating agentic scaffolds for solving SWE tasks (e.g., alternatives to OpenHands, etc).
+
+\section{Motivating Example}
+\label{sec:motivation}
+In this section, we will present data from three separate executions of the SWE-Bench benchmark on the same Large Language Model. The first execution will use the default parameters provided by the official repository. The second will use a slightly modified inference configuration (e.g., a different temperature setting). The third will use a different version of the evaluation harness. We will show that these seemingly minor variations lead to a significant and misleading variance in the final "pass@1" score, highlighting the urgent need for the recommendations that follow.
+
+% Add our Qwen3 series of experiments here. Highlight how the parameter that made a difference was not even a recommended parameter in OpenHands.
+
+\section{Recommendations}
+\label{sec:recommendations}
+In this section, we present five concrete recommendations derived from our industrial experience. These recommendations are designed to be practical and actionable, addressing the key challenges of reproducibility, transparency, and trustworthiness in LLM benchmarking for software engineering.
+
+\subsection{Comprehensive and Standardized Configuration Reporting}
+\label{sec:rec1}
+A fundamental barrier to reproducibility is the ad-hoc and incomplete manner in which benchmark configurations are currently reported. To address this, we propose a standardized, multi-part reporting structure that covers all layers of the evaluation stack. This structure should be captured in a \texttt{benchmark\_spec.yaml} file to ensure clarity and consistency.
+
+\subsubsection{Model Specification}
+Trust in benchmark results begins with knowing precisely which model was evaluated. Currently, submissions often only specify a model's name (e.g., "Llama-3-70B"). This is insufficient, as fine-tuned variants can have vastly different capabilities. We propose that all submissions must specify the exact base model and include a cryptographic hash (e.g., SHA-256) of the model weights for any open-source model. This provides an unambiguous, verifiable fingerprint of the exact artifact used.
+
+% Add Qwen3 Coder example where metadata doesn't align with published model.
+
+\subsubsection{Inference Engine Parameters}
+The software used to serve the model can significantly impact performance. Parameters related to the deployment and optimization of the inference engine, such as the configuration of vLLM or TensorRT-LLM, are often overlooked. This includes settings like the level of quantization, data-parallel size, and other engine-specific tunings. These parameters must be explicitly reported to understand the full context of the execution environment.
+
+% Add our VLLM parameter set
+
+\subsubsection{Inference Parameters}
+The parameters used at the time of generation directly control the model's output behavior. While some benchmarks report basic settings like temperature, a complete picture is necessary. We recommend the mandatory reporting of all inference parameters, including but not limited to temperature, top-p, top-k, repetition penalty, and maximum token count.
+
+% List the 30B models that we investigated and the key set of inference parameters that we identified.
+
+\subsubsection{Scaffold Parameters}
+The "scaffold" or "harness" that orchestrates the interaction between the model and the benchmark tasks is a major source of variability. Frameworks like OpenHands for SWE-Bench have their own configuration parameters that can dramatically influence outcomes. These settings, which control aspects like the agent's strategy or the number of interaction turns, must be treated as first-class citizens in the configuration report.
+
+% Add our reference parameters for Aider, LiveCodeBench, and SWE-Bench.
+
+\subsubsection{Execution Environment}
+When a benchmark is not executed within a provided container, the host environment becomes a significant source of variability. We recommend that all non-containerized benchmark runs must report a complete snapshot of the execution environment. This includes the operating system, Python version, and the specific version of critical hardware drivers like CUDA. Furthermore, a full list of pinned library dependencies, such as the output of \texttt{pip freeze}, must be included to prevent discrepancies arising from package updates.
+
+\subsection{Shift to Crowdsourced, Statistical Benchmarking}
+\label{sec:rec2}
+The current model of relying on a few single-point results published in papers or by model vendors is fragile and prone to cherry-picking. We advocate for a paradigm shift towards a crowdsourced, statistical model, inspired by mature fields like hardware benchmarking \cite{spec}. We envision a central, public repository where the community can submit benchmark results, each accompanied by its detailed configuration file (as per Recommendation 2). This would create a living, transparent distribution of performance data for any given model, allowing for the calculation of robust statistical measures like median and average performance. Such a system would serve as a powerful "reality check" against official claims and provide a much more reliable signal of a model's true capabilities.
+
+Model providers, in their quest to showcase the best possible performance, often publish benchmark scores obtained from highly-tuned configurations. While these "hero run" results are valuable for demonstrating a model's peak potential, they can be misleading if presented in isolation. We recommend that any benchmark result published by a model provider must be accompanied by a result from a run using the benchmark's official, out-of-the-box default scaffold parameters. This mandatory baseline provides a stable, common reference point, allowing the community to fairly assess the true "alpha" generated by custom tuning versus the model's core capabilities under a standardized setting.
+
+\subsection{Standardized Benchmark Engineering}
+\label{sec:rec3}
+From an industrial perspective, integrating and running multiple benchmarks is a significant software engineering challenge. Each benchmark is often a standalone, idiosyncratic system, making scaled evaluation a complex and costly integration project. We issue a call for the community to treat benchmarks as robust, interoperable software tools. This includes standardizing their interfaces, such as supporting a common set of inference parameters. It also means engineering for resilience and efficiency, for example, by immediately serializing the result of each task to prevent catastrophic data loss from a single failure. Finally, benchmarks should be distributed as containerized applications (e.g., using Docker) to ensure they can be run in a safe, isolated, and easily manageable environment.
+
+\section{Related Work}
+\label{sec:related-work}
+
+% Related work critiquing benchmarks practices in ML/AI
+
+% Discuss EvalHub type of solutions
+
+\section{Conclusion}
+\label{sec:conclusion}
+% TODO once paper is ready
+
+% Praise the SE community for creating so many benchmarks and the effort that has gone into them. Say we live in this transformative era of agentic AI (Cite Ahmed's paper) and we as a community must make the best of out of these amazing tools.
+
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.
