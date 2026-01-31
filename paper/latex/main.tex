@@ -6,6 +6,7 @@
 \usepackage[colorlinks,urlcolor=blue,linkcolor=blue,citecolor=blue]{hyperref}
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\/\do\*\do\-\do\~\do\'\do\"\do\-}
 \usepackage{upmath,color}
+\usepackage{graphicx}
 
 
 \jvol{XX}
@@ -26,7 +27,7 @@
 
 \sptitle{Article Type: Description  (see below for more detail)}
 
-\title{The Reproducibility Crisis of LLM Benchmarks in Software Engineering: An Industrial Perspective}
+\title{The Reproducibility Crisis of LLM Benchmarks in Software Engineering}
 
 \author{Gustavo A. Oliva}
 \affil{Queen's University, Kingston, ON, K7L 3N6, Canada}
@@ -39,28 +40,55 @@
 
 \markboth{THEME/FEATURE/DEPARTMENT}{THEME/FEATURE/DEPARTMENT}
 
-\begin{abstract}\looseness-1The integration of Large Language Models (LLMs) into Software Engineering (SE) has spurred the creation of benchmarks like SWE-Bench and LCB to measure their capabilities. However, current practices for reporting results are failing us, leading to a reproducibility crisis. The execution of these benchmarks depends on a vast number of parameters—from the LLM's training cutoff and inference settings to the specific versions of evaluation scaffolds—many of which go unreported. While some parameters have a greater impact than others, any one of them can alter the outcome, making it impossible for industrial teams to establish reliable baselines for their own models. This paper argues that the SE community must move beyond isolated, single-point benchmark publications. Drawing inspiration from mature practices in hardware benchmarking, we propose a paradigm shift towards a crowdsourced and continuously updated evaluation model. In this model, benchmark results are submitted by various parties, complete with detailed configuration reports, to establish a public, transparent distribution of performance data (e.g., median, average). This approach would not only expose the impact of different configurations but also create the robust, trustworthy baselines that industry desperately needs. We contend that such a shift is essential for fostering genuine progress and enabling fair comparison in the evaluation of LLMs for software engineering.
+\begin{abstract}\looseness-1The integration of Large Language Models (LLMs) into Software Engineering (SE) has spurred the creation of benchmarks like SWE-Bench and LiveCodeBench to measure their capabilities. However, current reporting practices fail, causing a reproducibility crisis driven by two fundamental problems: inherent non-determinism and parameter sensitivity. Even with identical configurations, LLM benchmark results vary significantly across runs due to the stochastic nature of model inference. Additionally, benchmarks depend on numerous parameters (inference settings, scaffold versions, environment configurations), often unreported. This paper presents a two-tiered solution: immediate recommendations that practitioners can adopt today (standardized configuration reporting and mandatory distribution reporting instead of single values), and long-term recommendations requiring community coordination (crowdsourced statistical benchmarking and standardized benchmark engineering). Drawing from our industrial experience, we argue that both tiers are essential for establishing robust, trustworthy baselines enabling fair comparison and progress in LLM evaluation for software engineering.
 \end{abstract}
 
 \maketitle
 
 The rapid advancement of Large Language Models (LLMs) has created a paradigm shift in software engineering (SE), with models now capable of generating code, fixing bugs, and even designing entire software components. To measure their progress, the community has developed benchmarks like SWE-Bench, LiveCodeBench, and the Aider Polyglot benchmark. However, the current practices for reporting results are failing, leading to a crisis in reproducibility, transparency, and trustworthiness.
 
-From an industrial perspective, this is a critical obstacle. As a company training our own LLMs, we rely on public benchmarks to establish a performance baseline. Furthermore, executing these benchmarks is a time-consuming and computationally expensive endeavor. Integrating multiple benchmarks, each with its own unique setup and non-standard parameters, is akin to a complex legacy system integration project. This lack of standardization leads to wasted resources and makes it impossible to reliably compare results. For instance, a public, crowdsourced baseline would allow us to see how far a new model's official scores deviate from the median, providing a much-needed reality check.
+This crisis affects multiple stakeholders across the LLM ecosystem. Model providers struggle to report results responsibly while demonstrating their models' capabilities. Practitioners evaluating models for production deployment lack the transparency needed to make informed decisions and validate vendor claims. Teams fine-tuning models cannot establish trustworthy baselines to measure their improvements. Researchers publishing LLM evaluations need practices that make their results verifiable and comparable. Each of these audiences faces the same fundamental challenge: current benchmarking practices provide neither the reproducibility nor the statistical rigor necessary for scientific progress or practical decision-making.
 
-In this paper, we distill our team's practical experience into a set of five concrete recommendations for the community. We begin with a motivating example, using our own data to show how minor parameter variations cause significant swings in benchmark scores. We then present our core recommendations: (1) Mandate cryptographic hashes of model weights for verifiable integrity. (2) Require a comprehensive, machine-readable configuration file for all runs. (3) Enforce the reporting of a "default settings" baseline alongside any optimized results. (4) Champion a shift to a crowdsourced, statistical benchmarking model. (5) Issue a call for standardized benchmark engineering, treating benchmarks as robust, containerized tools with standard interfaces and resilient execution. Our goal is to move the community towards a more robust, reliable, and scientific foundation for evaluating LLMs in software engineering.
-
-% TODO: Focus on industrial context of building LLMs, but also mention this is all valid for academics/researchers creating agentic scaffolds for solving SWE tasks (e.g., alternatives to OpenHands, etc).
+In this paper, we distill our team's practical experience into actionable recommendations addressing two fundamental problems that plague current benchmarking practices. First, inherent non-determinism means that even with identical configurations, benchmark results vary significantly across runs due to the stochastic nature of LLM inference. Second, parameter sensitivity means that small changes in configuration (often undocumented) can drastically alter outcomes. We demonstrate both problems with empirical data from our own evaluation efforts. We then present a two-tiered solution framework: immediate recommendations that individual researchers and companies can adopt today (comprehensive configuration reporting and mandatory distribution reporting instead of single values), and long-term recommendations that require community coordination (crowdsourced statistical benchmarking and standardized benchmark engineering). Our goal is to move the community towards a more robust, reliable, and scientific foundation for evaluating LLMs in software engineering.
 
 \section{MOTIVATING EXAMPLE}
 \label{sec:motivation}
 
-% The idea here is to show one execution of SWEBench with OpenHands. We will use default OpenHands parameters. Then, we'll show a second execution where only one change in the OpenHands parameters drastically improves the results. We will also show that OpenHands documentation actually disencourages activating said parameter.
+To illustrate the severity of the reproducibility crisis, we present empirical evidence from our own evaluation efforts demonstrating two distinct but equally problematic issues: inherent non-determinism and parameter sensitivity. Together, these problems make current single-point benchmark reporting fundamentally unreliable.
+
+\subsection{Problem 1: Inherent Non-Determinism}
+\label{sec:nondeterminism}
+
+Even when all configuration parameters remain constant, LLM benchmark results exhibit significant variation across runs. To demonstrate this, we executed the Aider Polyglot benchmark ten times on the same model using identical configurations (see Figure~\ref{fig:aider-results}). The pass rates varied substantially across runs, with differences large enough to change the ranking of models on public leaderboards. In the current era of "benchmaxing," where every decimal point is scrutinized and minor improvements are celebrated, this level of variation is deeply problematic.
+
+A common misconception is that setting the temperature parameter to zero ensures deterministic output. However, this approach fails for two reasons. First, greedy decoding (temperature equals zero) does not guarantee determinism across all LLM implementations and hardware configurations. Second, and more critically, several reasoning models fail or produce degraded results when temperature is set to zero\cite{pipis2025wait}. This makes temperature-based determinism impractical for comprehensive benchmarking.
+
+The implication is clear: single-point benchmark results are fundamentally unreliable. A model that scores 65\% on one run might score 62\% or 68\% on another, purely due to the stochastic nature of inference. Without understanding this distribution, we cannot meaningfully compare models or track progress.
+
+\begin{figure*}[!t]
+\centerline{\includegraphics[width=\textwidth]{figs/aider-polyglot-results.png}}
+\caption{Pass rates across ten independent runs of the Aider Polyglot benchmark using identical configurations. The variation in results demonstrates inherent non-determinism in LLM evaluation, with differences large enough to affect model rankings on public leaderboards.}
+\label{fig:aider-results}
+\end{figure*}
+
+\subsection{Problem 2: Parameter Sensitivity}
+\label{sec:parameter-sensitivity}
+
+Beyond inherent non-determinism, benchmark results are highly sensitive to configuration parameters, many of which are poorly documented or outright discouraged by scaffold documentation. We executed SWE-Bench using OpenHands with its default parameters, achieving a specific pass rate. We then modified a single OpenHands parameter, one that the documentation actually discourages enabling, and observed a dramatic improvement in performance. This parameter was not highlighted in published results, yet it fundamentally changed the outcome.
+
+This example illustrates a broader problem: the configuration space for LLM benchmarks is vast and poorly understood. Parameters span multiple layers (model inference settings, scaffold behavior, execution environment), and their interactions are complex. Without comprehensive reporting of all parameters, published results become irreproducible and comparisons become meaningless. A model appearing superior might simply benefit from undisclosed parameter tuning rather than genuine capability improvements.
+
+% TODO: Add specific numbers from our OpenHands experiments once we finalize which parameter example to use
 
 \section{RECOMMENDATIONS}
 \label{sec:recommendations}
 
-In this section, we present three concrete recommendations derived from our industrial experience. These recommendations are designed to be practical and actionable, addressing the key challenges of reproducibility, transparency, and trustworthiness in LLM benchmarking for software engineering.
+We organize our recommendations into two tiers based on their implementation timeline and coordination requirements. Immediate recommendations can be adopted today by individual researchers and companies. Long-term recommendations require community-wide coordination but offer transformative improvements to the benchmarking ecosystem.
+
+\section{IMMEDIATE RECOMMENDATIONS}
+\label{sec:immediate-recs}
+
+These recommendations address the most pressing issues and can be implemented immediately without requiring community-wide coordination.
 
 \subsection{Comprehensive and Standardized Configuration Reporting}
 \label{sec:rec1}
@@ -77,7 +105,7 @@ The software used to serve the model can significantly impact performance. Param
 % TODO: Add our VLLM parameter set
 
 \subsubsection{Inference Parameters}
-The parameters used at the time of generation directly control the model's output behavior. While some benchmarks report basic settings like temperature, a complete picture is necessary. We recommend the mandatory reporting of all inference parameters, including but not limited to temperature, top-p, top-k, repetition penalty, and maximum token count. 
+The parameters used at the time of generation directly control the model's output behavior. While some benchmarks report basic settings like temperature, a complete picture is necessary. We recommend the mandatory reporting of all inference parameters, including but not limited to temperature, top-p, top-k, repetition penalty, and maximum token count.
 
 % TODO: List the 30B models that we investigated and the key set of inference parameters that we identified.
 
@@ -89,16 +117,45 @@ The "scaffold" or "harness" that orchestrates the interaction between the model 
 \subsubsection{Execution Environment}
 When a benchmark is not executed within a provided container, the host environment becomes a significant source of variability. We recommend that all non-containerized benchmark runs must report a complete snapshot of the execution environment. This includes the operating system, Python version, and the specific version of critical hardware drivers like CUDA. Furthermore, a full list of pinned library dependencies, such as the output of \texttt{pip freeze}, must be included to prevent discrepancies arising from package updates.
 
+\subsection{Report Distributions, Not Single Values}
+\label{sec:rec-distributions}
+
+As demonstrated in our motivating example, inherent non-determinism means that single-point benchmark results are fundamentally unreliable. We recommend that all benchmark publications, whether in research papers or on model leaderboards, must report results from multiple runs rather than a single execution. Specifically, we propose the following requirements.
+
+\paragraph{Minimum Run Count}
+Benchmark results should be reported based on a minimum of three to five independent runs using identical configurations. While this increases computational cost, it is the only way to understand the true performance distribution and account for stochastic variation.
+
+\paragraph{Statistical Measures}
+Instead of reporting a single number, publications must include the mean, median, and standard deviation of the pass rate (or other primary metric) across all runs. This provides a complete picture of both central tendency and variability. For instance, a model with a mean pass rate of 65\% and a standard deviation of 3\% is fundamentally different from one with the same mean but a standard deviation of 8\%.
+
+\paragraph{Critique of Single-Number Leaderboards}
+Public leaderboards that display only a single score per model are misleading and should be considered unreliable. Without understanding the variance, we cannot know whether a one-point difference between two models is meaningful or simply noise. Leaderboard maintainers should require submitters to provide multiple run data and display confidence intervals or ranges alongside point estimates.
+
+This recommendation serves as a practical mitigation strategy that can be implemented immediately while the community works towards the long-term solution of crowdsourced statistical benchmarking. Even in the absence of a centralized repository, individual researchers and companies can adopt this practice to provide more trustworthy results.
+
+\section{LONG-TERM RECOMMENDATIONS}
+\label{sec:longterm-recs}
+
+While the immediate recommendations can be adopted today, the following recommendations require community-wide coordination and infrastructure development. However, they offer transformative improvements to the benchmarking ecosystem.
+
 \subsection{Shift to Crowdsourced, Statistical Benchmarking}
 \label{sec:rec2}
 
-The current model of relying on a few single-point results published in papers or by model vendors is fragile and prone to cherry-picking. We advocate for a paradigm shift towards a crowdsourced, statistical model, inspired by mature fields like hardware benchmarking. We envision a central, public repository where the community can submit benchmark results, each accompanied by its detailed configuration file (as per Recommendation 2). This would create a living, transparent distribution of performance data for any given model, allowing for the calculation of robust statistical measures like median and average performance. Such a system would serve as a powerful "reality check" against official claims and provide a much more reliable signal of a model's true capabilities.
+The current model of relying on a few single-point results published in papers or by model vendors is fragile and fails to address both problems identified in our motivating example. We advocate for a paradigm shift towards a crowdsourced, statistical model inspired by mature fields like hardware benchmarking. We envision a central, public repository where the community can submit benchmark results, each accompanied by its detailed configuration file (as per our immediate recommendation on configuration reporting). Critically, each submission would include multiple runs, providing a complete distribution rather than a single point.
 
-Model providers, in their quest to showcase the best possible performance, often publish benchmark scores obtained from highly-tuned configurations. While these "hero run" results are valuable for demonstrating a model's peak potential, they can be misleading if presented in isolation. We recommend that any benchmark result published by a model provider must be accompanied by a result from a run using the benchmark's official, out-of-the-box default scaffold parameters. This mandatory baseline provides a stable, common reference point, allowing the community to fairly assess the true "alpha" generated by custom tuning versus the model's core capabilities under a standardized setting.
+This approach directly addresses inherent non-determinism by making variance visible and quantifiable. Instead of asking "what score did Model X achieve?", we would ask "what is Model X's performance distribution?" With sufficient community submissions, we could establish robust statistical measures (median, interquartile range, outlier detection) that provide a much more reliable signal of true model capabilities.
+
+Simultaneously, this system addresses parameter sensitivity by exposing the impact of different configurations. When the repository contains multiple submissions for the same model with different parameter sets, we can empirically observe how sensitive performance is to specific settings. This transparency would discourage cherry-picked "hero runs" and reveal whether reported improvements stem from genuine model capabilities or merely undisclosed parameter tuning.
+
+Such a system would serve as a powerful reality check for industrial teams. When evaluating whether to adopt a new model, we could compare our internal benchmark results against the community distribution to understand whether our outcomes are typical or anomalous. This would dramatically reduce wasted effort chasing reproducibility issues.
 
 \subsection{Standardized Benchmark Engineering}
 \label{sec:rec3}
-From an industrial perspective, integrating and running multiple benchmarks is a significant software engineering challenge. Each benchmark is often a standalone, idiosyncratic system, making scaled evaluation a complex and costly integration project. We issue a call for the community to treat benchmarks as robust, interoperable software tools. This includes standardizing their interfaces, such as supporting a common set of inference parameters. It also means engineering for resilience and efficiency, for example, by immediately serializing the result of each task to prevent catastrophic data loss from a single failure. Finally, benchmarks should be distributed as containerized applications (e.g., using Docker) to ensure they can be run in a safe, isolated, and easily manageable environment.
+Executing LLM benchmarks is a time-consuming and computationally expensive endeavor. From both industrial and academic perspectives, integrating and running multiple benchmarks compounds this challenge significantly. Each benchmark is often a standalone, idiosyncratic system with its own unique setup and non-standard parameters, making scaled evaluation akin to a complex legacy system integration project. This lack of standardization leads to wasted resources and duplicated effort across organizations. We issue a call for the community to treat benchmarks as robust, interoperable software tools with standardized interfaces and practices that directly support reproducibility.
+
+First, benchmarks should support a common, well-documented set of inference parameters and automatically generate the comprehensive configuration reports called for in our immediate recommendations. Rather than requiring users to manually assemble configuration details from multiple sources, the benchmark should output a complete \texttt{benchmark\_spec.yaml} file capturing all relevant settings.
+
+Second, benchmarks should be distributed as containerized applications (e.g., using Docker) to reduce execution environment variability. This mitigates the challenges discussed in our Execution Environment recommendation, where differences in operating systems, library versions, and hardware drivers can affect results. Containerization would also facilitate integration with the crowdsourced benchmarking infrastructure proposed earlier, enabling better tooling for analyzing configuration sensitivity and aggregating results across the community.
 
 % \section{Related Work}
 % \label{sec:related-work}
@@ -106,22 +163,24 @@ From an industrial perspective, integrating and running multiple benchmarks is a
 % Related work critiquing benchmarks practices in ML/AI
 % Discuss EvalHub type of solutions
 
-\section{Conclusion}
+\section{CONCLUSION}
 \label{sec:conclusion}
 
-% TODO once paper is ready
+The software engineering community has built remarkable benchmarks that have fundamentally shaped our understanding of LLMs in software engineering. Now we must fix how we use them. Three insights should guide us forward:
 
-[The conclusion]
+\smallskip \noindent \textbf{-- Single-point benchmark results are unreliable}. The inherent non-determinism of LLM inference means that reported scores need statistical context. While multiple runs are computationally expensive, model providers publishing official performance results must show distributions (e.g., boxplots) rather than single numbers.
 
-Fake citation: \cite{goth2024polyglot}
+\smallskip \noindent \textbf{-- Configuration transparency is non-negotiable}. Every benchmark result must include a complete, machine-readable specification of all parameters across the evaluation stack. Without this, reproducibility remains impossible.
+ 
+\smallskip \noindent \textbf{-- We need crowdsourced statistical benchmarking infrastructure}. The current model of isolated, vendor-reported scores limits our ability to establish trustworthy baselines. Community-driven repositories that expose performance distributions and configuration sensitivities would transform how we evaluate and compare models.
 
-% % TODO: Praise the SE community for creating so many benchmarks and the effort that has gone into them. Say we live in this transformative era of agentic AI (Cite Ahmed's paper) and we as a community must make the best of out of these amazing tools.
+\smallskip
+
+The immediate recommendations can be adopted today by individual practitioners and model providers. The long-term recommendations require coordination, but the path is clear. The transformative potential of LLMs in software engineering deserves an evaluation foundation built on transparency, statistical rigor, and community collaboration. 
 
 \section{SUPPLEMENTARY MATERIAL}
 
-See the Appendix, which is available in the IEEE Computer Society Digital Library at \url{http://doi.ieeecomputersociety.org/10.1109/MCSE.2019.2947017}.
-
-For detailed algorithms, please refer to the supplementary materials, which can be found in the Computer Society Digital Library at \url{http://doi.ieeecomputersociety.org/10.1109/MCSE.2019.2947017}.\vspace*{-8pt}
+To practice what we preach, we provide complete configuration specifications for all benchmark executions presented in our motivating examples. These include comprehensive \texttt{benchmark\_spec.yaml} files covering model specifications, inference engine parameters, inference parameters, scaffold configurations, and execution environment details. Additionally, we provide a JSON schema defining the structure and required fields for benchmark configuration reporting. We emphasize that this schema is not final but rather a starting point for the community to improve upon through feedback and contributions. All materials are available in our GitHub repository: \url{https://github.com/placeholder/llm-benchmark-reproducibility}.
 
 \section{ACKNOWLEDGMENTS}
 The author(s) would like to thank A, B, and C. This work was supported by XYZ under Grant \#\#\#.

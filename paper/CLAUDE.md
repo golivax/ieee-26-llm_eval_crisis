@@ -15,6 +15,8 @@ The article should emphasize practical experience, such as:
 - Tools, architectures, processes, or methods used in practice
 - Evidence from real projects (lightweight empirical data is welcome)
 
+The article **must contain three actionable insights**.
+
 ## IEEE Software Requirements
 
 ### Word Count Structure
@@ -29,7 +31,7 @@ The article should emphasize practical experience, such as:
 - Use American English with serial comma ("a, b, and c")
 - Define all acronyms at first mention in abstract and main text
 - Spell out numerals up to ten without units; use digits with units
-- Figure callouts: "see Figure 1" (Roman, not bold/italic)
+- Figure callouts: Always use LaTeX cross-references (e.g., `Figure~\ref{fig:label}`), never hardcode numbers like "Figure 1"
 - Lists: Use `\ieeeguilsinglright` bullet style with periods ending each item
 
 ### Document Structure
@@ -39,6 +41,7 @@ The article should emphasize practical experience, such as:
 - Conclusion: Include future directions; avoid referencing multiple figures/tables
 - Acknowledgments: Appears after conclusion, before references (American spelling: two e's)
 - Biographies: One paragraph each; first author includes contact email
+- Section titles: Top-level section titles must be UPPERCASE (e.g., `\section{CONCLUSION}`, not `\section{Conclusion}`)
 
 ## Directory structure
 - `latex`: Latex source code
@@ -57,6 +60,8 @@ The article should emphasize practical experience, such as:
 - Citations use `[super]{cite}` package for superscript format
 - Biographies use `IEEEbiography` environment
 - Section numbering disabled (`\setcounter{secnumdepth}{0}`)
+- **Always use `\ref{}` for figure/table numbers**: Never hardcode "Figure 1", use `Figure~\ref{fig:label}` instead
+- Use non-breaking space (`~`) before `\ref{}` to prevent line breaks between "Figure" and the number
 
 ## Development Guidelines and Conventions
 
