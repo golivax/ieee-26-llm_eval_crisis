@@ -34,5 +34,8 @@ Analysis must be systematic according to criteria that matters in practice
 
 -------
 
-
 Standardized timeout mechanisms
+
+-------
+
+For the benchmark selection paper -> start by showing how CLaude is actually far from being the best one in competition benchmarks (people believed that competition benchmarks was the way to go. except claude sucks on it yet it is cnosidered perhaps the best model for coding)
