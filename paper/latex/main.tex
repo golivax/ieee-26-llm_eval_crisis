@@ -7,6 +7,7 @@
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks\do\/\do\*\do\-\do\~\do\'\do\"\do\-}
 \usepackage{upmath,color}
 \usepackage{graphicx}
+\usepackage{soul}
 
 
 \jvol{XX}
@@ -47,7 +48,7 @@
 
 The rapid advancement of Large Language Models (LLMs) has created a paradigm shift in software engineering (SE)~\cite{hassan2026se3,hassan2025agenticse}, with models that are now capable of understanding real-world large scale codebases and submitting pull-requrests (PRs) with bug fixes and feature implementations. To measure the progres of these models, the community has developed several SE benchmarks, such as  Aider Polyglot and SWE-Bench~\cite{jimenez2024swebench}. However, two fundamental problems undermine the reliability of current benchmark reporting practices.
 
-The first problem is \textbf{benchmark parameter sensitivity}. Benchmark results are highly sensitive to configuration parameters, many of which are poorly documented. Parameters span a surprising amount of layers: model weights, inference engine, model inference settings, scaffold behavior, and execution environment. TODO: Add the SWEBench OpenHands tool calling thing.
+The first problem is \textbf{benchmark parameter sensitivity}. Benchmark results are highly sensitive to configuration parameters, many of which are poorly documented. Parameters span a surprising amount of layers: model weights, inference engine, model inference settings, scaffold behavior, and execution environment. \hl{TODO: Add the SWEBench OpenHands tool calling thing.}
 
 The same dynamic appears at the resource layer: Anthropic reports a six-percentage-point swing on Terminal-Bench 2.0 between strict and uncapped memory configurations simply by varying the eval-time resource envelope~\cite{anthropic2026noise}. Without comprehensive reporting and enforcement of all parameters, published results become almost irreproducible and straight comparisons can be misleading.
 
@@ -59,10 +60,8 @@ The second problem is \textbf{run-to-run variance in benchmark results}. Even wh
 
 \smallskip \noindent (3) Infrastructure Noise. Even with identical model, code, and harness, environmental fluctuations shift outcomes: transient memory spikes can hit OOM kill thresholds, network calls can hit latency spikes or rate limits, container startup races complete in different orders, and cluster contention varies with time of day. These fluctuations are often times invisible from outside the run but can flip a task's verdict.
 
-To demonstrate the magnitude of run-to-run variance, we executed the Aider Polyglot benchmark ten times on the same model using identical configurations (see Figure~\ref{fig:aider-results}). The pass rates varied substantially across runs, with differences large enough to change the ranking of models on Aider's Leaderboard (see Table~\ref{}). In the current era of "benchmaxing," where every decimal point is scrutinized and minor improvements are celebrated, this level of variation is deeply problematic. The implication is clear: single-point benchmark results are fundamentally unreliable. Since the observed spread compounds the three sources above, single-point reporting is even less defensible than the temperature-zero discussion alone implies.
 
-% 33.78\% to 28.89\%
-% Add table
+\smallskip To demonstrate the magnitude of run-to-run variance, we executed the Aider Polyglot benchmark ten times on the same model using identical configurations (see Figure~\ref{fig:aider-results}). The pass rates varied substantially across runs, with differences large enough to change the ranking of models on Aider's Leaderboard (see Table~\ref{}). In the current era of "benchmaxing," where every decimal point is scrutinized and minor improvements are celebrated, this level of variation is deeply problematic. The implication is clear: single-point benchmark results are fundamentally unreliable. Since the observed spread compounds the three sources above, single-point reporting is even less defensible than the temperature-zero discussion alone implies. \hl{TODO: check if these results are convincing enough. if yes, find raw results and draw a nicer chart. variance appears to be in the 33.78\% to 28.89\% range. may need to check the Aider Leaderboard to show that this fluctuation is meaningful.}
 
 
 \begin{figure*}[!t]
