@@ -27,7 +27,7 @@ The article **must contain three actionable insights**.
 - **Figures/Tables/Code blocks**: Each counts as +250 words
 
 ### Writing Style
-- **Strictly avoid dashes (--)** to separate sentence parts
+- **Strictly avoid dashes and semicolons for sentence separation**: no `--` (en-dashes), no `—` or `---` (em-dashes), and no semicolons (`;`). Use parentheses, colons, or sentence breaks instead.
 - Use American English with serial comma ("a, b, and c")
 - Define all acronyms at first mention in abstract and main text
 - Spell out numerals up to ten without units; use digits with units
